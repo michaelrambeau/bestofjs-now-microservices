@@ -24,7 +24,7 @@ now secret add GITHUB_CLIENT_SECRET ***
 now secret add GITHUB_USERNAME ***
 ```
 
-Deploy the service, from the microservice repository:
+Deploy the service, from the microservice folder:
 
 ```
 npm run deploy
