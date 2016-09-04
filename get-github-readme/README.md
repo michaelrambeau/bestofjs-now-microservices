@@ -30,3 +30,13 @@ npm run deploy
 
 The server will be deployed and a new URL will be available.
 For example: https://get-github-readme-iphlexqbjp.now.sh?url=https://github.com/camwiegert/in-view
+
+## Tests
+
+Requirement: `tape` testing framework has be installed globally.
+
+We don't include `tape` package in `devDependencies`, otherwise `now.sh` will install it too when it runs `npm install`.
+
+```
+npm test
+```

@@ -6,7 +6,6 @@
   "scripts": {
     "test": "tape test/**/*spec.js",
     "start": "node ./src/server",
-    "deploy0": "node ./scripts/deploy",
     "deploy": "now -e NODE_ENV=production -e GITHUB_CLIENT_ID=@github_client_id -e GITHUB_CLIENT_SECRET=@github_client_secret -e GITHUB_USERNAME=@github_username"
   },
   "author": "Michael Rambeau",
@@ -16,7 +15,5 @@
     "express": "^4.14.0",
     "node-fetch": "^1.6.0"
   },
-  "devDependencies": {
-    "tape": "^4.6.0"
-  }
+  "devDependencies": {}
 }
