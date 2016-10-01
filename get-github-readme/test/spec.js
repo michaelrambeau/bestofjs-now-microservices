@@ -2,21 +2,21 @@
 const test = require('tape')
 require('../setup')
 
-const urls = [
-  'https://github.com/caolan/async',
-  'https://github.com/node-inspector/node-inspector',
-  'https://github.com/facebook/flux',
-  'https://github.com/rackt/react-router',
-  'https://github.com/MostlyAdequate/mostly-adequate-guide'
+const repos = [
+  'caolan/async',
+  'node-inspector/node-inspector',
+  'facebook/flux',
+  'rackt/react-router',
+  'MostlyAdequate/mostly-adequate-guide'
 ]
-urls.forEach(url => getReadme(url))
+repos.forEach(repo => getReadme(repo))
 
-function getReadme (url) {
-  test('Checking response from ' + url, assert => {
+function getReadme (repo) {
+  test(`Checking response from ${repo}`, assert => {
     const webtask = require('../src/get-github-readme')
     const context = {
       data: {
-        url,
+        repo,
         username: process.env.GITHUB_USERNAME,
         client_id: process.env.GITHUB_CLIENT_ID,
         client_secret: process.env.GITHUB_CLIENT_SECRET

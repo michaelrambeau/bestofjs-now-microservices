@@ -12,8 +12,8 @@ module.exports = function (context, done) {
   }
 
   // Check the input
-  var url = context.data.url
-  if (!url) return sendError('No `url` parameter')
+  var repo = context.data.repo
+  if (!repo) return sendError('No `repo` parameter')
 
   // Check if credentials are provided
   var credentials = {
@@ -28,7 +28,7 @@ module.exports = function (context, done) {
   const options = {
     credentials
   }
-  getReadMe(url, options, function (err, readme) {
+  getReadMe(repo, options, function (err, readme) {
     if (err) console.log(err)
     var result = {
       readme: readme
@@ -43,7 +43,8 @@ module.exports = function (context, done) {
 // - path (optional): added to the repository (ex: '/readme')
 const githubRequest = function (repo, path, options, cb) {
   const { credentials } = options
-  let url = repo.replace(/https:\/\/github.com/, 'https://api.github.com/repos')
+  // let url = repo.replace(/https:\/\/github.com/, 'https://api.github.com/repos')
+  let url = `https://api.github.com/repos/${repo}`
   url = `${url}${path}?client_id=${credentials.client_id}&client_secret=${credentials.client_secret}`
   var requestOptions = {
     headers: {
