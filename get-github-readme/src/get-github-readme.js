@@ -73,7 +73,7 @@ var getReadMe = function (repo, options, cb) {
   getGithubReadme(repo, options, function (err, readme) {
     if (err) return cb(err)
 
-    var root = repo
+    var root = `https://github.com/${repo}`
 
     // STEP1: replace relative anchor link URL
     // [Quick Start](#quick-start) => [Quick Start](https://github.com/node-inspector/node-inspector#quick-start)"
@@ -102,7 +102,7 @@ var getReadMe = function (repo, options, cb) {
     // STEP4: replace relative image URL
     readme = readme.replace(/src="(.+?)"/gi, function (match, p1) {
       if (DEBUG) console.log('Replace image relative URL', p1)
-      return 'src="' + getImagePath(root, p1) + '"'
+      return `src="${getImagePath(root, p1)}"`
     })
 
     // STEP5: remove self closed anchors (seen on async repo)
