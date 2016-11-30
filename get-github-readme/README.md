@@ -1,6 +1,8 @@
-# `get-github-readme` microservices
+# `get-github-readme` microservice
 
-An Express web server that fetches the README file for a given Github project, calling Github API.
+An Express web server that fetches the README file for a given Github project, calling the Github API.
+
+How to call it: `/githubUserName/:repoName?branch=master`
 
 The service applies several transformations to be able to display the html from any page:
 
@@ -48,3 +50,8 @@ We don't include `tape` package in `devDependencies`, otherwise `now.sh` will in
 ```
 npm test
 ```
+
+## CHANGELOG
+
+* 2016-11-30 v2 https://get-github-readme-v2.now.sh Add `?branch` optional parameter
+* 2016-09-06 v1 https://get-github-readme-v1.now.sh First version hosted on now.sh

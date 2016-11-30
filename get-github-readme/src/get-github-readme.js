@@ -14,6 +14,7 @@ module.exports = function (context, done) {
   // Check the input
   var repo = context.data.repo
   if (!repo) return sendError('No `repo` parameter')
+  const branch = context.data.branch || 'master'
 
   // Check if credentials are provided
   var credentials = {
@@ -26,7 +27,8 @@ module.exports = function (context, done) {
   if (!credentials.client_secret) return sendError('No Github credentials `client_secret`')
 
   const options = {
-    credentials
+    credentials,
+    branch
   }
   getReadMe(repo, options, function (err, readme) {
     if (err) console.log(err)
@@ -43,7 +45,6 @@ module.exports = function (context, done) {
 // - path (optional): added to the repository (ex: '/readme')
 const githubRequest = function (repo, path, options, cb) {
   const { credentials } = options
-  // let url = repo.replace(/https:\/\/github.com/, 'https://api.github.com/repos')
   let url = `https://api.github.com/repos/${repo}`
   url = `${url}${path}?client_id=${credentials.client_id}&client_secret=${credentials.client_secret}`
   var requestOptions = {
@@ -74,6 +75,7 @@ var getReadMe = function (repo, options, cb) {
     if (err) return cb(err)
 
     var root = `https://github.com/${repo}`
+    const branch = options.branch
 
     // STEP1: replace relative anchor link URL
     // [Quick Start](#quick-start) => [Quick Start](https://github.com/node-inspector/node-inspector#quick-start)"
@@ -89,20 +91,20 @@ var getReadMe = function (repo, options, cb) {
       // If the URL starts with http => do nothing
       if (p1.indexOf('http') === 0) return match
       if (DEBUG) console.log('Replace link relative URL', p1)
-      return `<a href="${root}/blob/master/${p1}">`
+      return `<a href="${root}/blob/${branch}/${p1}">`
     })
 
     // STEP3: markdown images seen on https://github.com/MostlyAdequate/mostly-adequate-guide
     //! [cover](images/cover.png)] => ![cover](https://github.com/MostlyAdequate/mostly-adequate-guide/raw/master/images/cover.png)
-    readme = readme.replace(/!\[(.+?)\]\(\/(.+?)\)/gi, function (match, p1, p2) {
+    readme = readme.replace(/!\[(.+?)]\(\/(.+?)\)/gi, function (match, p1, p2) {
       if (DEBUG) console.log('Replace md image relative URL', p1)
-      return `[${p1}](${root}/blob/master/${p2})`
+      return `[${p1}](${root}/blob/${branch}/${p2})`
     })
 
     // STEP4: replace relative image URL
     readme = readme.replace(/src="(.+?)"/gi, function (match, p1) {
       if (DEBUG) console.log('Replace image relative URL', p1)
-      return `src="${getImagePath(root, p1)}"`
+      return `src="${getImagePath(root, p1, branch)}"`
     })
 
     // STEP5: remove self closed anchors (seen on async repo)
@@ -131,7 +133,7 @@ var getReadMe = function (repo, options, cb) {
 }
 
 // Replace relative URL by absolute URL
-function getImagePath (root, url) {
+function getImagePath (root, url, branch) {
   var path = url
 
   // If the URL is absolute (start with http), we do nothing...
@@ -143,5 +145,5 @@ function getImagePath (root, url) {
 
   // ...otherwise we create an absolute URL to the "raw image
   // example: images in "You-Dont-Know-JS" repo.
-  return root + '/raw/master/' + path
+  return `${root}/raw/${branch}/${path}`
 }

@@ -25,12 +25,12 @@ function crossDomainMiddleware (req, res, next) {
 app.use(crossDomainMiddleware)
 
 app.get('/:userName/:repoName', function (req, res) {
-  console.log('query', req.query)
   const { userName, repoName } = req.params
-  // const repo = req.query.repo
+  const { branch } = req.query
+  if (!userName || !repoName) return res.status(500).json({ error: 'Expected parameters: `/:userName/:repoName`' })
   const repo = `${userName}/${repoName}`
-  if (!repo) return res.status(500).json({ error: 'Specify the `?repo=` querystring parameter' })
   context.data.repo = repo
+  context.data.branch = branch
   console.log('Starting the webtask')
   webtask(context, function (err, result) {
     if (err) {

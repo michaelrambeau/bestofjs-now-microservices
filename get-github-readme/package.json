@@ -1,8 +1,7 @@
 {
   "name": "get-github-readme",
-  "version": "0.0.1",
+  "version": "2.0.0",
   "description": "Get README html content from Github. Microservice for bestof.js.org",
-  "main": "index.js",
   "scripts": {
     "test": "tape test/**/*spec.js",
     "start": "node ./src/server",

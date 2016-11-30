@@ -7,7 +7,8 @@ const repos = [
   'node-inspector/node-inspector',
   'facebook/flux',
   'rackt/react-router',
-  'MostlyAdequate/mostly-adequate-guide'
+  'MostlyAdequate/mostly-adequate-guide',
+  'aerojs/aero'
 ]
 repos.forEach(repo => getReadme(repo))
 
