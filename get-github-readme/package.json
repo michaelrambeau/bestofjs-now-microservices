@@ -1,7 +1,10 @@
 {
   "name": "get-github-readme",
   "version": "2.0.0",
-  "description": "Get README html content from Github. Microservice for bestof.js.org",
+  "description": "Fetch README html content from Github. Microservice for bestofjs.org",
+  "engines": {
+    "node": ">=10.5.0"
+  },
   "scripts": {
     "test": "tape test/**/*spec.js",
     "start": "node ./src/server",
@@ -10,9 +13,11 @@
   "author": "Michael Rambeau",
   "license": "MIT",
   "dependencies": {
+    "debug": "^3.1.0",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
-    "node-fetch": "^1.6.0"
+    "node-fetch": "^1.6.0",
+    "pretty-bytes": "^5.1.0"
   },
   "devDependencies": {
     "tape": "^4.6.2"

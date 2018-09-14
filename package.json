@@ -1,0 +1,27 @@
+{
+  "name": "bestofjs-now-microservices",
+  "version": "1.0.0",
+  "description": "Best of JavaScript micro-services hosted on Zeit Now",
+  "engines": {
+    "node": ">=10.5.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michaelrambeau/bestofjs-now-microservices.git"
+  },
+  "author": "Michael Rambeau",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-eslint": "^9.0.0",
+    "eslint": "^5.5.0",
+    "eslint-config-prettier": "^3.0.1",
+    "eslint-plugin-babel": "^5.2.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-prettier": "^2.6.2",
+    "eslint-plugin-promise": "^4.0.1",
+    "prettier": "^1.14.2"
+  }
+}

@@ -1,6 +1,6 @@
-# Microservices deployed on zeit.co/now
+# Best of JavaScript microservices
 
-This repository contains source code for microservices deployed using [zeit.co/now](https://zeit.co/now) service.
+This repository contains source code for microservices deployed using [zeit.co/now](https://zeit.co/now).
 
 How to deploy:
 
@@ -24,7 +24,7 @@ now secret add GITHUB_CLIENT_SECRET ***
 now secret add GITHUB_USERNAME ***
 ```
 
-Deploy the service, from the microservice folder:
+Deploy the service, from every service folder:
 
 ```
 npm run deploy

@@ -43,10 +43,6 @@ now alias set get-github-readme-jxoxmapilc get-github-readme-v1.now
 
 ## Tests
 
-Requirement: `tape` testing framework has be installed globally.
-
-We don't include `tape` package in `devDependencies`, otherwise `now.sh` will install it too when it runs `npm install`.
-
 ```
 npm test
 ```
