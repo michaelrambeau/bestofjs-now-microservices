@@ -1,0 +1,22 @@
+{
+  "name": "fetch-license",
+  "version": "1.0.0",
+  "description": "Best of JavaScript `fetch-license` service",
+  "engines": {
+    "node": ">=10.5.0"
+  },
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node ./src/server",
+    "deploy": "now"
+  },
+  "author": "Michael Rambeau",
+  "license": "MIT",
+  "dependencies": {
+    "debug": "^4.0.1",
+    "express": "^4.16.3",
+    "legally": "^3.2.1",
+    "lodash.mapvalues": "^4.6.0",
+    "pretty-bytes": "^5.1.0"
+  }
+}

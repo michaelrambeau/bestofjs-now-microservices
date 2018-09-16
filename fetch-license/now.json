@@ -1,0 +1,7 @@
+{
+  "env": {
+    "NODE_ENV": "production",
+    "DEBUG": "api"
+  },
+  "alias": "fetch-license"
+}
