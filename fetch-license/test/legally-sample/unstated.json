@@ -1,0 +1,9 @@
+{
+  "create-react-context@0.1.6": {
+    "package": ["MIT"],
+    "copying": ["MIT"],
+    "readme": []
+  },
+  "pack-unstated@1.0.0": { "package": ["ISC"], "copying": [], "readme": [] },
+  "unstated@2.1.1": { "package": ["MIT"], "copying": ["MIT"], "readme": [] }
+}
