@@ -1,9 +1,9 @@
-const { packageLicenseOnly, byLicense } = require("./convert-legally-response");
+const { aggregatePackagesByLicense } = require("./convert-legally-response");
 
 const response = require("../test/legally-sample/unstated.json");
 
-test("It should format `legally` package response", () => {
-  const licenses = byLicense(response);
+test("It should format `legally` response for `unstated` package", () => {
+  const licenses = aggregatePackagesByLicense(response);
   const expectedResult = {
     MIT: {
       count: 2,
@@ -15,4 +15,53 @@ test("It should format `legally` package response", () => {
     }
   };
   expect(licenses).toEqual(expectedResult);
+});
+
+const useCases = [
+  {
+    input: {
+      a: {
+        package: [],
+        copying: ["MIT"],
+        readme: ["MIT"]
+      }
+    },
+    output: {
+      MIT: {
+        count: 1,
+        packages: ["a"]
+      }
+    }
+  },
+  {
+    input: {
+      a: {
+        package: ["ISC"],
+        copying: ["MIT"],
+        readme: ["MIT"]
+      },
+      b: {
+        package: ["MIT"],
+        copying: ["MIT"],
+        readme: ["MIT"]
+      }
+    },
+    output: {
+      MIT: {
+        count: 2,
+        packages: ["a", "b"]
+      },
+      ISC: {
+        count: 1,
+        packages: ["a"]
+      }
+    }
+  }
+];
+
+test("It should format `legally` package response", () => {
+  useCases.forEach(({ input, output }) => {
+    const licenses = aggregatePackagesByLicense(input);
+    expect(licenses).toEqual(output);
+  });
 });

@@ -1,12 +1,12 @@
 const legally = require("legally");
 const debug = require("debug")("legally");
 
-const { byLicense } = require("./convert-legally-response");
+const { aggregatePackagesByLicense } = require("./convert-legally-response");
 
 async function fetchLicenseData(packageName) {
   const result = await legally(packageName);
   debug(result);
-  const licenses = byLicense(result);
+  const licenses = aggregatePackagesByLicense(result);
   return { licenses };
 }
 

@@ -1,11 +1,15 @@
 const mapValues = require("lodash.mapvalues");
+const flatten = require("lodash.flatten");
+const uniq = require("lodash.uniq");
 
-function packageLicenseOnly(input) {
-  return mapValues(input, value => value.package);
+function getAllLicenses(input) {
+  const getLicenseList = packageInput =>
+    uniq(flatten(Object.values(packageInput)));
+  return mapValues(input, getLicenseList);
 }
 
-function byLicense(input) {
-  const packages = packageLicenseOnly(input);
+function aggregatePackagesByLicense(input) {
+  const packages = getAllLicenses(input);
   return Object.keys(packages).reduce((acc, packageName) => {
     const licenses = packages[packageName].map(license => ({
       packageName,
@@ -24,6 +28,6 @@ const reducer = (acc, { license, packageName }) => {
 };
 
 module.exports = {
-  packageLicenseOnly,
-  byLicense
+  getAllLicenses,
+  aggregatePackagesByLicense
 };
