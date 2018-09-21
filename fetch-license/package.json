@@ -8,15 +8,22 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node ./src/server",
-    "deploy": "now"
+    "deploy": "now -e MONGODB_CACHE_URI=@bestofjs_cache_mongo_uri"
   },
   "author": "Michael Rambeau",
   "license": "MIT",
   "dependencies": {
+    "@keyv/mongo": "^1.0.4",
     "debug": "^4.0.1",
     "express": "^4.16.3",
-    "legally": "^3.2.1",
+    "keyv": "^3.1.0",
+    "legally": "^3.2.2",
+    "lodash.flatten": "^4.4.0",
     "lodash.mapvalues": "^4.6.0",
+    "lodash.uniq": "^4.5.0",
     "pretty-bytes": "^5.1.0"
+  },
+  "devDependencies": {
+    "dotenv": "^6.0.0"
   }
 }
