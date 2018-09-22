@@ -17,7 +17,7 @@
     "debug": "^4.0.1",
     "express": "^4.16.3",
     "keyv": "^3.1.0",
-    "legally": "^3.2.2",
+    "legally": "^3.2.3",
     "lodash.flatten": "^4.4.0",
     "lodash.mapvalues": "^4.6.0",
     "lodash.uniq": "^4.5.0",

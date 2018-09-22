@@ -15,11 +15,11 @@ function aggregatePackagesByLicense(input) {
       packageName,
       license
     }));
-    return licenses.reduce(reducer, acc);
+    return licenses.reduce(byLicense, acc);
   }, {});
 }
 
-const reducer = (acc, { license, packageName }) => {
+const byLicense = (acc, { license, packageName }) => {
   const count = acc[license] ? acc[license].count + 1 : 1;
   const packages = acc[license]
     ? acc[license].packages.concat(packageName)
@@ -27,7 +27,12 @@ const reducer = (acc, { license, packageName }) => {
   return { ...acc, [license]: { count, packages } };
 };
 
+function getAllPackages(input) {
+  return Object.keys(input);
+}
+
 module.exports = {
   getAllLicenses,
+  getAllPackages,
   aggregatePackagesByLicense
 };

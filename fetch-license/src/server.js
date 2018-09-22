@@ -1,9 +1,7 @@
 const express = require("express");
 const prettyBytes = require("pretty-bytes");
-const debug = require("debug")("*");
-// const apicache = require("apicache");
-// const routeCache = require("route-cache");
 const Keyv = require("keyv");
+const debug = require("debug")("*");
 
 const fetchLicenseData = require("./fetch-license-data");
 const fetchIfNeeded = require("./fetch-if-needed");
@@ -13,7 +11,16 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config({ path: "../.env" });
 }
 const uri = process.env.MONGODB_CACHE_URI;
-const keyv = new Keyv(uri, { collection: "licenses", namespace: "" });
+const inMemory = false;
+
+const options = {
+  collection: "licenses",
+  namespace: "licenses",
+  // Override the default serializer to make data in MongoDB simpler to read:
+  // values as stored as JSON objects instead of strings
+  serialize: _ => _
+};
+const cache = inMemory ? new Keyv() : new Keyv(uri, options);
 
 const app = express();
 
@@ -33,7 +40,7 @@ app.get("/package", async function(request, response) {
     const { status, data } = await fetchIfNeeded({
       fetchFn: () => fetchLicenseData(name),
       key: name,
-      cache: keyv
+      cache
     });
     debug(`Sending license data`, prettyBytes(JSON.stringify(data).length));
     response.send({ status: "OK", ...data });
@@ -43,7 +50,7 @@ app.get("/package", async function(request, response) {
   }
 });
 
-app.get("/status", (req, res) => {
+app.get("/status", async (req, res) => {
   const result = { status: "OK" };
   res.json(result);
 });

@@ -1,13 +1,26 @@
 const legally = require("legally");
 const debug = require("debug")("legally");
 
-const { aggregatePackagesByLicense } = require("./convert-legally-response");
+const {
+  aggregatePackagesByLicense,
+  getAllPackages
+} = require("./convert-legally-response");
 
 async function fetchLicenseData(packageName) {
+  const t0 = new Date();
   const result = await legally(packageName);
+  const t1 = new Date();
+  const duration = t1 - t0;
   debug(result);
   const licenses = aggregatePackagesByLicense(result);
-  return { licenses };
+  const packages = getAllPackages(result);
+  const meta = {
+    date: t0,
+    duration,
+    count: packages.length,
+    licenses: Object.keys(licenses)
+  };
+  return { meta, licenses, packages };
 }
 
 module.exports = fetchLicenseData;
