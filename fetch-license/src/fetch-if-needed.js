@@ -1,13 +1,12 @@
 const debug = require("debug")("cache");
 
-async function fetchIfNeeded({ fetchFn, key, cache }) {
+async function fetchIfNeeded({ fetchFn, key, cache, maxAgeSeconds }) {
   const cachedValue = await cache.get(key);
   const fromCache = !!cachedValue;
   debug(key, fromCache ? "in the cache" : "not in the cache!");
   const fetchAndUpdateCache = async () => {
     const value = await fetchFn(key);
-    const maxAge = 24 * 3600 * 60;
-    await cache.set(key, value, maxAge * 1000); // expects milliseconds
+    await cache.set(key, value, maxAgeSeconds * 1000); // expects milliseconds
     return value;
   };
   const data = await (cachedValue || fetchAndUpdateCache());

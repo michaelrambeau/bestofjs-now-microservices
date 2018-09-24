@@ -4,7 +4,7 @@ const uniq = require("lodash.uniq");
 
 function getAllLicenses(input) {
   const getLicenseList = packageInput =>
-    uniq(flatten(Object.values(packageInput)));
+    removeRedundantApacheLicenses(uniq(flatten(Object.values(packageInput))));
   return mapValues(input, getLicenseList);
 }
 
@@ -31,8 +31,20 @@ function getAllPackages(input) {
   return Object.keys(input);
 }
 
+function removeRedundantApacheLicenses(licenses) {
+  const isApache = license => /Apache/i.test(license);
+  const count = licenses.filter(isApache).length;
+  const isRedundant = license => count > 1 && license === "Apache";
+  return licenses.filter(license => !isRedundant(license));
+}
+
+function removeRedundantLicenses(licenses) {
+  return removeRedundantApacheLicenses(licenses)
+}
+
 module.exports = {
   getAllLicenses,
   getAllPackages,
-  aggregatePackagesByLicense
+  aggregatePackagesByLicense,
+  removeRedundantLicenses
 };

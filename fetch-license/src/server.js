@@ -11,7 +11,7 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config({ path: "../.env" });
 }
 const uri = process.env.MONGODB_CACHE_URI;
-const inMemory = false;
+const inMemory = process.env.IN_MEMORY === "1";
 
 const options = {
   collection: "licenses",
@@ -21,7 +21,9 @@ const options = {
   serialize: _ => _
 };
 const cache = inMemory ? new Keyv() : new Keyv(uri, options);
+const maxAgeSeconds = 24 * 3600 * 60; // ms
 
+debug("Starting the app", inMemory ? "[using the in-memory cache]" : "");
 const app = express();
 
 function crossDomainMiddleware(req, res, next) {
@@ -40,7 +42,8 @@ app.get("/package", async function(request, response) {
     const { status, data } = await fetchIfNeeded({
       fetchFn: () => fetchLicenseData(name),
       key: name,
-      cache
+      cache,
+      maxAgeSeconds
     });
     debug(`Sending license data`, prettyBytes(JSON.stringify(data).length));
     response.send({ status: "OK", ...data });
