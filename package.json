@@ -27,6 +27,7 @@
     "prettier": "^1.14.2"
   },
   "dependencies": {
+    "@keyv/mongo": "^1.0.4",
     "lodash.flatten": "^4.4.0",
     "lodash.uniq": "^4.5.0"
   }

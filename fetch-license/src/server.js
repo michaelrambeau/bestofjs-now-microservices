@@ -1,10 +1,12 @@
 const express = require("express");
 const prettyBytes = require("pretty-bytes");
+const prettyMs = require("pretty-ms");
 const Keyv = require("keyv");
 const debug = require("debug")("*");
 
 const fetchLicenseData = require("./fetch-license-data");
 const fetchIfNeeded = require("./fetch-if-needed");
+const { isValidPackageName } = require("./utils");
 
 const PORT = process.env.PORT || 3001;
 if (process.env.NODE_ENV !== "production") {
@@ -21,7 +23,7 @@ const options = {
   serialize: _ => _
 };
 const cache = inMemory ? new Keyv() : new Keyv(uri, options);
-const maxAgeSeconds = 24 * 3600 * 60; // ms
+const maxAgeSeconds = 10 * 24 * 60 * 60; // 10 days
 
 debug("Starting the app", inMemory ? "[using the in-memory cache]" : "");
 const app = express();
@@ -36,14 +38,16 @@ function crossDomainMiddleware(req, res, next) {
 app.use(crossDomainMiddleware);
 
 app.get("/package", async function(request, response) {
-  const { name } = request.query;
-  debug(`Fetch license data for "${name}" package...`);
+  const { name, skipCache } = request.query;
   try {
+    if (!isValidPackageName(name)) throw new Error("Invalid package name!");
+    debug(`Fetch license data for "${name}" package...`);
     const { status, data } = await fetchIfNeeded({
       fetchFn: () => fetchLicenseData(name),
       key: name,
       cache,
-      maxAgeSeconds
+      maxAgeSeconds,
+      skipCache
     });
     debug(`Sending license data`, prettyBytes(JSON.stringify(data).length));
     response.send({ status: "OK", ...data });
@@ -56,6 +60,20 @@ app.get("/package", async function(request, response) {
 app.get("/status", async (req, res) => {
   const result = { status: "OK" };
   res.json(result);
+});
+
+app.get("/cache", async (req, res) => {
+  const now = new Date();
+  const formatCacheEntry = entry => ({
+    key: entry.key.split(":")[1],
+    expiresIn: prettyMs(new Date(entry.expiresAt) - now)
+  });
+  const result = await cache.opts.store.mongo.find(
+    {},
+    { key: 1, expiresAt: 1 },
+    { sort: { expiresAt: 1 } }
+  );
+  res.json(result.map(formatCacheEntry));
 });
 
 const listener = app.listen(PORT, function() {

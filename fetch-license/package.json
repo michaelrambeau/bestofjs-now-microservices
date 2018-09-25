@@ -13,15 +13,17 @@
   "author": "Michael Rambeau",
   "license": "MIT",
   "dependencies": {
-    "@keyv/mongo": "^1.0.4",
+    "@keyv/mongo": "michaelrambeau/keyv-mongo#add-find-method",
     "debug": "^4.0.1",
     "express": "^4.16.3",
     "keyv": "^3.1.0",
-    "legally": "^3.2.3",
+    "legally": "^3.3.0",
     "lodash.flatten": "^4.4.0",
     "lodash.mapvalues": "^4.6.0",
     "lodash.uniq": "^4.5.0",
-    "pretty-bytes": "^5.1.0"
+    "pretty-bytes": "^5.1.0",
+    "pretty-ms": "^4.0.0",
+    "validate-npm-package-name": "^3.0.0"
   },
   "devDependencies": {
     "dotenv": "^6.0.0"
