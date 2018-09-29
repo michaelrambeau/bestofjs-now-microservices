@@ -2,6 +2,16 @@ const mapValues = require("lodash.mapvalues");
 const flatten = require("lodash.flatten");
 const uniq = require("lodash.uniq");
 
+const getVersion = (packageName, response) => {
+  const packageNameVersion = Object.keys(response).find(p =>
+    p.startsWith(`${packageName}@`)
+  );
+  if (!packageNameVersion) return null;
+  const re = /(.*)@(.*)$/;
+  const [_, nameOnly, versionOnly] = re.exec(packageNameVersion); //eslint-disable-line no-unused-vars
+  return versionOnly;
+};
+
 function getAllLicenses(input) {
   const getLicenseList = packageInput =>
     removeRedundantApacheLicenses(uniq(flatten(Object.values(packageInput))));
@@ -39,12 +49,13 @@ function removeRedundantApacheLicenses(licenses) {
 }
 
 function removeRedundantLicenses(licenses) {
-  return removeRedundantApacheLicenses(licenses)
+  return removeRedundantApacheLicenses(licenses);
 }
 
 module.exports = {
   getAllLicenses,
   getAllPackages,
   aggregatePackagesByLicense,
-  removeRedundantLicenses
+  removeRedundantLicenses,
+  getVersion
 };

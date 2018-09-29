@@ -8,7 +8,8 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node ./src/server",
-    "deploy": "now -e MONGODB_CACHE_URI=@bestofjs_cache_mongo_uri"
+    "deploy": "now -e MONGODB_CACHE_URI=@bestofjs_cache_mongo_uri",
+    "hourly-update": "node ./src/job/job.js"
   },
   "author": "Michael Rambeau",
   "license": "MIT",
@@ -16,11 +17,14 @@
     "@keyv/mongo": "michaelrambeau/keyv-mongo#add-find-method",
     "debug": "^4.0.1",
     "express": "^4.16.3",
+    "got": "^9.2.2",
     "keyv": "^3.1.0",
     "legally": "^3.3.0",
     "lodash.flatten": "^4.4.0",
     "lodash.mapvalues": "^4.6.0",
     "lodash.uniq": "^4.5.0",
+    "p-map": "^2.0.0",
+    "p-series": "^1.1.0",
     "pretty-bytes": "^5.1.0",
     "pretty-ms": "^4.0.0",
     "validate-npm-package-name": "^3.0.0"

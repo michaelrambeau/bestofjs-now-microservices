@@ -1,12 +1,29 @@
 const {
   aggregatePackagesByLicense,
-  removeRedundantLicenses
+  removeRedundantLicenses,
+  getVersion
 } = require("./convert-legally-response");
 
-const response = require("../test/legally-sample/unstated.json");
+const responses = {
+  unstated: require("../test/legally-sample/unstated.json"),
+  express: require("../test/legally-sample/express.json")
+};
+
+test("it should extract the right version number", () => {
+  const useCases = [
+    {
+      input: "unstated",
+      output: "2.1.1"
+    }
+  ];
+  useCases.forEach(({ input, output }) => {
+    const version = getVersion(input, responses[input]);
+    expect(version).toBe(output);
+  });
+});
 
 test("It should format `legally` response for `unstated` package", () => {
-  const licenses = aggregatePackagesByLicense(response);
+  const licenses = aggregatePackagesByLicense(responses.unstated);
   const expectedResult = {
     MIT: {
       count: 2,

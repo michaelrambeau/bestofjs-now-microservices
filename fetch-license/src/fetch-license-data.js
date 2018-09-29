@@ -3,7 +3,8 @@ const debug = require("debug")("legally");
 
 const {
   aggregatePackagesByLicense,
-  getAllPackages
+  getAllPackages,
+  getVersion
 } = require("./convert-legally-response");
 
 async function fetchLicenseData(packageName) {
@@ -14,7 +15,10 @@ async function fetchLicenseData(packageName) {
   debug(result);
   const licenses = aggregatePackagesByLicense(result);
   const packages = getAllPackages(result);
+  const version = getVersion(packageName, result);
   const meta = {
+    name: packageName,
+    version: version,
     date: t0,
     duration,
     count: packages.length,
