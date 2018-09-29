@@ -17,8 +17,8 @@ function fetchAllProjects() {
 }
 
 const limits = {
-  trending: 200,
-  popular: 200
+  trending: 1000,
+  popular: 1000
 };
 
 async function fetchProjects() {
