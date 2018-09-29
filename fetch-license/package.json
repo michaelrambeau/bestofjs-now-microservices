@@ -30,6 +30,6 @@
     "validate-npm-package-name": "^3.0.0"
   },
   "devDependencies": {
-    "dotenv": "^6.0.0"
+    "dotenv-safe": "^6.0.0"
   }
 }

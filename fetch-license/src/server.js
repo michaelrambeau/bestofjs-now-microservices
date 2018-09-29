@@ -3,6 +3,7 @@ const prettyBytes = require("pretty-bytes");
 const prettyMs = require("pretty-ms");
 const debug = require("debug")("*");
 
+require("./setup");
 const fetchLicenseData = require("./fetch-license-data");
 const fetchIfNeeded = require("./fetch-if-needed");
 const { createCache, findAll } = require("./cache");
@@ -10,9 +11,7 @@ const { isValidPackageName } = require("./utils");
 const updateAllProjects = require("./job/update-all-projects");
 
 const PORT = process.env.PORT || 3001;
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config({ path: "../.env" });
-}
+
 const uri = process.env.MONGODB_CACHE_URI;
 const inMemory = process.env.IN_MEMORY === "1";
 const cache = createCache({ inMemory, uri });
