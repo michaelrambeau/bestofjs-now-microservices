@@ -85,11 +85,28 @@ app.get("/cache", async (req, res) => {
     duration: prettyMs(entry.value.value.meta.duration),
     count: entry.value.value.meta.count
   });
-  debug("Fetching cache entries");
+  debug("Fetching cache entries (sorted by ttl)");
   const result = await findAll(cache);
   const count = result.length;
   debug(count, "entries found");
   const entries = result.map(formatCacheEntry);
+  res.json({ count, entries });
+});
+
+app.get("/stats", async (req, res) => {
+  const formatCacheEntry = entry => ({
+    key: entry.key.split(":")[1],
+    duration: prettyMs(entry.value.value.meta.duration),
+    count: entry.value.value.meta.count
+  });
+  debug("Fetching cache entries (sorted by duration)");
+  const result = await findAll(cache);
+  const count = result.length;
+  debug(count, "entries found");
+  const getDuration = entry => entry.value.value.meta.duration;
+  const entries = result
+    .sort((a, b) => (getDuration(a) > getDuration(b) ? -1 : 1))
+    .map(formatCacheEntry);
   res.json({ count, entries });
 });
 
