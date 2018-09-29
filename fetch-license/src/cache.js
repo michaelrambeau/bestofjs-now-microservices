@@ -28,7 +28,32 @@ function findAll(cache) {
   );
 }
 
+/*
+Build a `Map` object from the database cache, that contains only useful `meta` data
+used to select the packages to update every time the job runs.
+*/
+async function buildMetaLocalCache(cache) {
+  const re = new RegExp(`^${namespace}`);
+  const entries = await cache.opts.store.mongo.find(
+    { key: re },
+    {
+      "value.value.meta.date": 1,
+      "value.value.meta.version": 1,
+      "value.value.meta.name": 1
+    },
+    { sort: { expiresAt: 1 } }
+  );
+  const map = new Map();
+  entries.forEach(entry => {
+    const { meta } = entry.value.value;
+    const key = meta.name;
+    map.set(key, meta);
+  });
+  return map;
+}
+
 module.exports = {
   createCache,
-  findAll
+  findAll,
+  buildMetaLocalCache
 };

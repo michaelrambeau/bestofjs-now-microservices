@@ -1,13 +1,13 @@
 const debug = require("debug")("verbose");
 const fetchLicenseData = require("../fetch-license-data");
 
-const addCacheData = cache => async project => {
+const addCacheData = localCache => async project => {
   const { npm, version } = project;
   const key = npm;
-  const cachedValue = await cache.get(key);
+  const cachedValue = await localCache.get(key);
   const inCache = !!cachedValue; // && cachedValue.status === "OK";
-  const versionInCache = cachedValue && cachedValue.meta.version;
-  const lastUpdate = cachedValue && cachedValue.meta.date;
+  const versionInCache = cachedValue && cachedValue.version;
+  const lastUpdate = cachedValue && cachedValue.date;
   return { key, version, lastUpdate, inCache, versionInCache };
 };
 
