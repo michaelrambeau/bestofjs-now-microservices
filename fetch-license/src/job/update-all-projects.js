@@ -21,10 +21,7 @@ async function updateAllProjects({ cache, limit, maxAgeSeconds, dryRun }) {
   debug("Local cache built", localCache.size, "entries");
   debug("Fetching all projects...");
   const { featured, popular, trending } = await fetchProjects();
-  const candidates = uniq([].concat(featured, popular, trending)).slice(
-    0,
-    1000
-  );
+  const candidates = uniq([].concat(featured, popular, trending));
   debug("Checking the cache");
   const packagesWithCacheData = await pMap(
     candidates,
