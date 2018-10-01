@@ -49,7 +49,12 @@ function removeRedundantApacheLicenses(licenses) {
 }
 
 function removeRedundantLicenses(licenses) {
-  return removeRedundantApacheLicenses(licenses);
+  const isLinkToLicenseFile = license =>
+    /SEE LICENSE IN LICENSE/i.test(license);
+  const cleanedLicenses = licenses.filter(
+    license => !isLinkToLicenseFile(license)
+  );
+  return removeRedundantApacheLicenses(cleanedLicenses);
 }
 
 module.exports = {

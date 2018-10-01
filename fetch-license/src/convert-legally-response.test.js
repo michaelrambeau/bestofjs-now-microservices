@@ -85,7 +85,7 @@ test("It should format `legally` package response", () => {
   });
 });
 
-test("It should remove redundant licences", () => {
+test("It should remove redundant licenses", () => {
   const useCases = [
     {
       input: ["MIT", "Apache", "Apache 2.0"],
@@ -94,6 +94,10 @@ test("It should remove redundant licences", () => {
     {
       input: ["MIT", "ISC", "Apache 2.0"],
       output: ["MIT", "ISC", "Apache 2.0"]
+    },
+    {
+      input: ["SEE LICENSE IN LICENSE", "MIT", "SEE LICENSE IN LICENSE.md"],
+      output: ["MIT"]
     }
   ];
   useCases.forEach(({ input, output }) => {
