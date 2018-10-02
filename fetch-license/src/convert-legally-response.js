@@ -14,7 +14,7 @@ const getVersion = (packageName, response) => {
 
 function getAllLicenses(input) {
   const getLicenseList = packageInput =>
-    removeRedundantApacheLicenses(uniq(flatten(Object.values(packageInput))));
+    removeRedundantLicenses(uniq(flatten(Object.values(packageInput))));
   return mapValues(input, getLicenseList);
 }
 
