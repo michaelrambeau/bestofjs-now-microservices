@@ -8,9 +8,7 @@ function sortProjects(projects, getScore) {
 }
 
 function fetchAllProjects() {
-  const url = "https://bestofjs-api-dev.firebaseapp.com/projects.json";
-  // const url = 'https://bestofjs-api-v2.firebaseapp.com/projects.json'
-  // const url = "http://localhost:5000/projects.json";
+  const url = "https://bestofjs-api-v3.firebaseapp.com/npm-projects.json";
   return got(url, { json: true })
     .then(r => r.body)
     .then(json => json.projects);
@@ -32,7 +30,7 @@ async function fetchProjects() {
   ).slice(0, limits.popular);
   const trending = sortProjects(
     filteredProjects,
-    project => project.deltas[0]
+    project => project.trends.daily[0]
   ).slice(0, limits.trending);
   const featured = filteredProjects.filter(project =>
     whitelist.includes(project.npm)
