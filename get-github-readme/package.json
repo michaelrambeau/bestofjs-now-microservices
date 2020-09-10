@@ -16,7 +16,7 @@
     "debug": "^3.1.0",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
-    "node-fetch": "^1.6.0",
+    "node-fetch": "^2.6.1",
     "pretty-bytes": "^5.1.0"
   },
   "devDependencies": {
